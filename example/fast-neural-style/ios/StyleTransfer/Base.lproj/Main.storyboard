@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13168.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Rso-um-b7V">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13147.4"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="m0M-gW-R8c">
+            <objects>
+                <navigationController id="Rso-um-b7V" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Fbl-Yj-CRF">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="yOd-qI-2oY"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="taO-z3-Va7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-462" y="128"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="StyleTransfer" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZqT-3x-ES3">
+                                <rect key="frame" x="0.0" y="439" width="188" height="114"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Button" image="starry_night"/>
+                                <connections>
+                                    <action selector="styleButtonTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tSd-55-BaV"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="1" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LFI-Kp-9U8">
+                                <rect key="frame" x="187" y="439" width="188" height="114"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Button" image="composition_vii"/>
+                                <connections>
+                                    <action selector="styleButtonTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wJb-5U-kjf"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="2" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ShK-0Z-KFk">
+                                <rect key="frame" x="0.0" y="553" width="187.5" height="114"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Button" image="wave"/>
+                                <connections>
+                                    <action selector="styleButtonTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Xk0-fv-yP9"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="3" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wez-Zd-kBo">
+                                <rect key="frame" x="187" y="553" width="187.5" height="114"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Button" image="la_muse"/>
+                                <connections>
+                                    <action selector="styleButtonTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="X3f-pA-JaY"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="input" translatesAutoresizingMaskIntoConstraints="NO" id="OoJ-TL-5sk">
+                                <rect key="frame" x="0.0" y="64" width="375" height="375"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="OoJ-TL-5sk" secondAttribute="height" multiplier="1:1" id="ygd-t0-BXJ"/>
+                                </constraints>
+                            </imageView>
+                            <view alpha="0.84999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5eg-sp-i2p">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="hB5-6I-Q7M">
+                                        <rect key="frame" x="177" y="291" width="20" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="hs7-qg-Gfa"/>
+                                            <constraint firstAttribute="width" constant="20" id="zWT-VT-mmr"/>
+                                        </constraints>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="hB5-6I-Q7M" firstAttribute="centerY" secondItem="5eg-sp-i2p" secondAttribute="centerY" id="TyT-EX-Vpg"/>
+                                    <constraint firstItem="hB5-6I-Q7M" firstAttribute="centerX" secondItem="5eg-sp-i2p" secondAttribute="centerX" id="ri7-Ns-gK5"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="wez-Zd-kBo" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="47E-hy-lWl"/>
+                            <constraint firstItem="OoJ-TL-5sk" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="FME-Ml-a3z"/>
+                            <constraint firstItem="OoJ-TL-5sk" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="GFP-I6-nMx"/>
+                            <constraint firstItem="LFI-Kp-9U8" firstAttribute="width" secondItem="ZqT-3x-ES3" secondAttribute="width" id="GR4-m1-mL7"/>
+                            <constraint firstItem="ZqT-3x-ES3" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Gqg-Kg-2Hc"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="wez-Zd-kBo" secondAttribute="trailing" id="Hdv-Kk-dHZ"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="LFI-Kp-9U8" secondAttribute="trailing" id="Hrd-2d-lXl"/>
+                            <constraint firstItem="ShK-0Z-KFk" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="Ixu-ou-Au1"/>
+                            <constraint firstItem="5eg-sp-i2p" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="LPj-74-NYn"/>
+                            <constraint firstItem="5eg-sp-i2p" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Tzk-pJ-58y"/>
+                            <constraint firstItem="OoJ-TL-5sk" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="W9f-4F-JyC"/>
+                            <constraint firstItem="LFI-Kp-9U8" firstAttribute="height" secondItem="ZqT-3x-ES3" secondAttribute="height" id="Yv2-WA-SOS"/>
+                            <constraint firstItem="ShK-0Z-KFk" firstAttribute="height" secondItem="ZqT-3x-ES3" secondAttribute="height" id="ZRa-ir-eWZ"/>
+                            <constraint firstItem="ShK-0Z-KFk" firstAttribute="top" secondItem="ZqT-3x-ES3" secondAttribute="bottom" id="dPN-IG-VJJ"/>
+                            <constraint firstItem="ZqT-3x-ES3" firstAttribute="top" secondItem="OoJ-TL-5sk" secondAttribute="bottom" id="jJW-IO-oP0"/>
+                            <constraint firstItem="wez-Zd-kBo" firstAttribute="width" secondItem="ShK-0Z-KFk" secondAttribute="width" id="jsL-fv-oSm"/>
+                            <constraint firstItem="LFI-Kp-9U8" firstAttribute="top" secondItem="OoJ-TL-5sk" secondAttribute="bottom" id="mcZ-RW-OpA"/>
+                            <constraint firstItem="wez-Zd-kBo" firstAttribute="leading" secondItem="ShK-0Z-KFk" secondAttribute="trailing" id="rPT-w5-EZM"/>
+                            <constraint firstItem="wez-Zd-kBo" firstAttribute="height" secondItem="ShK-0Z-KFk" secondAttribute="height" id="rXD-rc-fT9"/>
+                            <constraint firstItem="LFI-Kp-9U8" firstAttribute="leading" secondItem="ZqT-3x-ES3" secondAttribute="trailing" constant="-1" id="tVV-TR-D93"/>
+                            <constraint firstItem="ShK-0Z-KFk" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="tow-5k-ndD"/>
+                            <constraint firstItem="5eg-sp-i2p" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="wNd-sQ-o6g"/>
+                            <constraint firstItem="5eg-sp-i2p" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="yWa-1n-lER"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="VZf-0h-SXQ">
+                        <barButtonItem key="leftBarButtonItem" systemItem="save" id="PLX-up-L1f">
+                            <connections>
+                                <action selector="saveResult:" destination="BYZ-38-t0r" id="qFP-Mj-V4V"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="camera" id="BJP-pI-2xT">
+                            <connections>
+                                <action selector="takePhoto:" destination="BYZ-38-t0r" id="iNF-5f-Bel"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="imageView" destination="OoJ-TL-5sk" id="Rr8-iH-z3N"/>
+                        <outlet property="loadingView" destination="5eg-sp-i2p" id="W9f-UU-oqf"/>
+                        <outletCollection property="buttons" destination="ZqT-3x-ES3" collectionClass="NSMutableArray" id="IjF-Rv-v01"/>
+                        <outletCollection property="buttons" destination="LFI-Kp-9U8" collectionClass="NSMutableArray" id="pLl-hf-spf"/>
+                        <outletCollection property="buttons" destination="ShK-0Z-KFk" collectionClass="NSMutableArray" id="Nyd-6g-654"/>
+                        <outletCollection property="buttons" destination="wez-Zd-kBo" collectionClass="NSMutableArray" id="Xj4-Hq-Qkn"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="356" y="128.18590704647679"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="composition_vii" width="1071" height="712"/>
+        <image name="input" width="1080" height="1080"/>
+        <image name="la_muse" width="1088" height="873"/>
+        <image name="starry_night" width="1024" height="640"/>
+        <image name="wave" width="928" height="514"/>
+    </resources>
+</document>
