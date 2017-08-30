@@ -30,17 +30,21 @@ def _infer_torch_output_shape(torch_model, input_shape):
         return output_shape
 
 
-def _set_deprocessing(builder, deprocessing_args, input_name, output_name):
+def _set_deprocessing(is_grayscale,
+                      builder,
+                      deprocessing_args,
+                      input_name,
+                      output_name):
     is_bgr = deprocessing_args.get('is_bgr', False)
 
     _convert_multiarray_output_to_image(
         builder.spec, output_name, is_bgr=is_bgr
     )
 
-    gray_bias = deprocessing_args.get('gray_bias', 0.0)
     image_scale = deprocessing_args.get('image_scale', 1.0)
 
-    if gray_bias != 0.0:
+    if is_grayscale:
+        gray_bias = deprocessing_args.get('gray_bias', 0.0)
         W = np.array([image_scale])
         b = np.array([gray_bias])
     else:
@@ -174,8 +178,18 @@ def convert(model,
 
     # set deprocessing parameters
     if is_image_output:
+        if output_shape[0] == 1:
+            is_grayscale = True
+        elif output_shape[0] == 3:
+            is_grayscale = False
+        else:
+            raise ValueError('Output must be RGB image or Grayscale')
         _set_deprocessing(
-            builder, deprocessing_args, model_output_names[0], output_name
+            is_grayscale,
+            builder,
+            deprocessing_args,
+            model_output_names[0],
+            output_name
         )
 
     if class_labels is not None:
