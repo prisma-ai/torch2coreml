@@ -354,6 +354,37 @@ def _convert_zero_padding(builder, name, layer, input_names, output_names):
     return output_names
 
 
+def _convert_narrow(builder, name, layer, input_names, output_names):
+    dimension = layer.dimension
+    if len(layer.output.numpy().shape) == 4:
+        # as torch layer works with 4d tensor we should decrement dimension
+        dimension -= 1
+
+    if dimension == 0:
+        axis = 'channel'
+    elif dimension == 1:
+        axis = 'height'
+    elif dimension == 2:
+        axis = 'width'
+    else:
+        raise ValueError('Only 3d tensors are supported')
+
+    index = layer.index
+    length = layer.length
+
+    builder.add_slice(
+        name=name,
+        axis=axis,
+        start_index=index,
+        end_index=index + length,
+        stride=1,
+        input_name=input_names[0],
+        output_name=output_names[0]
+    )
+
+    return output_names
+
+
 _TORCH_LAYER_REGISTRY = {
     'Sequential': _convert_sequential,
     'SpatialConvolution': _convert_convolution,
@@ -372,7 +403,8 @@ _TORCH_LAYER_REGISTRY = {
     'Linear': _convert_linear,
     'Tanh': _convert_tanh,
     'MulConstant': _convert_mul_constant,
-    'SpatialZeroPadding': _convert_zero_padding
+    'SpatialZeroPadding': _convert_zero_padding,
+    'Narrow': _convert_narrow
 }
 
 

@@ -20,14 +20,19 @@ class SingleLayerTest(unittest.TestCase):
         _, model_path = tempfile.mkstemp()
         self.model_path = model_path
         self.input = np.random.ranf(_INPUT_SHAPE)
+        self.torch_batch_mode = True
 
     def tearDown(self):
         os.remove(self.model_path)
 
     def _forward_torch(self):
         torch_model = load_lua(self.model_path)
-        input_tensor = torch.from_numpy(np.asarray([self.input])).float()
-        return torch_model.forward(input_tensor).numpy()[0]
+        if self.torch_batch_mode:
+            input_tensor = torch.from_numpy(np.asarray([self.input])).float()
+            return torch_model.forward(input_tensor).numpy()[0]
+        else:
+            input_tensor = torch.from_numpy(self.input).float()
+            return torch_model.forward(input_tensor).numpy()
 
     def _forward_coreml(self):
         from _torch_converter import convert
@@ -92,3 +97,7 @@ class SingleLayerTest(unittest.TestCase):
 
     def test_batch_norm(self):
         self._test_single_layer('nn.SpatialBatchNormalization(3)')
+
+    def test_narrow(self):
+        self.torch_batch_mode = False
+        self._test_single_layer('nn.Narrow(1, 1, 1)')

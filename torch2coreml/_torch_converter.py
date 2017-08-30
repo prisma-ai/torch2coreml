@@ -24,6 +24,7 @@ def _infer_torch_output_shape(torch_model, input_shape):
         output_shape = torch_model.forward(input_tensor).numpy().shape
         return output_shape
     except:
+        # try batch mode
         input_tensor = torch.rand(1, *input_shape).float()
         output_shape = torch_model.forward(input_tensor).numpy().shape[1:]
         return output_shape
