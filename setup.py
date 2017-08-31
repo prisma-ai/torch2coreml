@@ -3,7 +3,7 @@ from codecs import open
 from os import path
 
 
-VERSION = '0.0.5'
+VERSION = '0.0.6'
 
 here = path.abspath(path.dirname(__file__))
 
@@ -36,7 +36,7 @@ setup(
     keywords='coreml machinelearning ml coremltools torch converter neural',
     python_requires='==2.7.*',
     install_requires=[
-        'coremltools>=0.5.0',
+        'coremltools>=0.6.2',
         'torch'
     ]
 )
