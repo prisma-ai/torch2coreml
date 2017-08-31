@@ -100,7 +100,8 @@ List of Torch7 layers that can be converted into their CoreML equivalent:
 15. Tanh
 16. MulConstant
 17. SpatialZeroPadding
-18. Narrow
+18. SpatialReflectionPadding
+19. Narrow
 
 ## License
 

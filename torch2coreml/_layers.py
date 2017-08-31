@@ -374,6 +374,30 @@ def _convert_narrow(builder, name, layer, input_names, output_names):
     return output_names
 
 
+def _convert_reflection_padding(builder,
+                                name,
+                                layer,
+                                input_names,
+                                output_names):
+    pad_l = int(layer.pad_l)
+    pad_r = int(layer.pad_r)
+    pad_t = int(layer.pad_t)
+    pad_b = int(layer.pad_b)
+
+    builder.add_padding(
+        name=name,
+        left=pad_l,
+        right=pad_r,
+        top=pad_t,
+        bottom=pad_b,
+        input_name=input_names[0],
+        output_name=output_names[0],
+        padding_type='reflection'
+    )
+
+    return output_names
+
+
 _TORCH_LAYER_REGISTRY = {
     'Sequential': _convert_sequential,
     'SpatialConvolution': _convert_convolution,
@@ -393,7 +417,8 @@ _TORCH_LAYER_REGISTRY = {
     'Tanh': _convert_tanh,
     'MulConstant': _convert_mul_constant,
     'SpatialZeroPadding': _convert_zero_padding,
-    'Narrow': _convert_narrow
+    'Narrow': _convert_narrow,
+    'SpatialReflectionPadding': _convert_reflection_padding
 }
 
 

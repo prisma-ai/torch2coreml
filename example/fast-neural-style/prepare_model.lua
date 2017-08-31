@@ -32,15 +32,6 @@ local function main()
     return nn.SpatialZeroPadding(-size, -size, -size, -size)
   end)
 
-  -- As CoreML is not supporting replection padding, replace it with zero padding
-  replaceModule(model, 'nn.SpatialReflectionPadding', function(m)
-    local pad_l = m.pad_l
-    local pad_r = m.pad_r
-    local pad_t = m.pad_t
-    local pad_b = m.pad_b
-    return nn.SpatialZeroPadding(pad_l, pad_r, pad_t, pad_b)
-  end)
-
   -- Remove last TotalVariation layer
   if model.modules[#model.modules].__typename == 'nn.TotalVariation' then
     model.modules[#model.modules] = nil

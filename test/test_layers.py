@@ -101,3 +101,6 @@ class SingleLayerTest(unittest.TestCase):
     def test_narrow(self):
         self.torch_batch_mode = False
         self._test_single_layer('nn.Narrow(1, 1, 1)')
+
+    def test_reflection_padding(self):
+        self._test_single_layer('nn.SpatialReflectionPadding(1, 2, 3, 4)')
