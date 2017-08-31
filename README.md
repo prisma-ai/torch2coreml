@@ -8,9 +8,10 @@ pip install -U torch2coreml
 ```
 
 In order to use this tool you need to have these installed:
-* MacOS - High Sierra 10.13
 * Xcode 9
 * python 2.7
+
+If you want to run tests, you need MacOS High Sierra 10.13 installed.
 
 ## Dependencies
 
