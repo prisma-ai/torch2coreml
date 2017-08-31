@@ -1,5 +1,4 @@
 from _utils import _gen_layer_name, _torch_typename
-from _utils import _add_pooling_with_padding_types
 
 
 def _convert_sequential(builder, name, layer, input_names, output_names):
@@ -233,8 +232,7 @@ def _convert_pooling(builder, name, layer, input_names, output_names):
     pad_h, pad_w = layer.padH, layer.padW
     d_h, d_w = layer.dH, layer.dW
 
-    _add_pooling_with_padding_types(
-        builder=builder,
+    builder.add_pooling(
         name=name,
         height=k_h,
         width=k_w,
