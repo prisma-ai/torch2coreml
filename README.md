@@ -15,7 +15,7 @@ If you want to run tests, you need MacOS High Sierra 10.13 installed.
 
 ## Dependencies
 
-* coremltools (0.5.0+)
+* coremltools (0.6.2+)
 * PyTorch
 
 ## How to use
