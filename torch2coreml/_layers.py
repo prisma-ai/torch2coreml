@@ -35,20 +35,6 @@ def _convert_convolution(builder, name, layer, input_names, output_names):
     if layer.bias is not None:
         bias = layer.bias.numpy()
 
-    if pad_h > 0 or pad_w > 0:
-        padding_name = _gen_layer_name('padding')
-        builder.add_padding(
-            name=padding_name,
-            left=pad_w,
-            right=pad_w,
-            top=pad_h,
-            bottom=pad_h,
-            value=0.0,
-            input_name=input_name,
-            output_name=padding_name
-        )
-        input_name = padding_name
-
     builder.add_convolution(
         name=name,
         kernel_channels=layer.nInputPlane,
@@ -66,7 +52,11 @@ def _convert_convolution(builder, name, layer, input_names, output_names):
         output_shape=None,
         input_name=input_name,
         output_name=output_name,
-        dilation_factors=[1, 1]
+        dilation_factors=[1, 1],
+        padding_top=pad_h,
+        padding_bottom=pad_h,
+        padding_left=pad_w,
+        padding_right=pad_w
     )
 
     return output_names
