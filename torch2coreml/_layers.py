@@ -311,12 +311,13 @@ def _convert_tanh(builder, name, layer, input_names, output_names):
 def _convert_mul_constant(builder, name, layer, input_names, output_names):
     scalar = float(layer.constant_scalar)
 
-    nn_spec = builder.nn_spec
-    scale_layer = nn_spec.layers.add()
-    scale_layer.name = name
-    scale_layer.input.append(input_names[0])
-    scale_layer.output.append(output_names[0])
-    scale_layer.activation.linear.alpha = scalar
+    builder.add_activation(
+        name=name,
+        non_linearity='LINEAR',
+        input_name=input_names[0],
+        output_name=output_names[0],
+        params=[scalar, 0.0]
+    )
 
     return output_names
 

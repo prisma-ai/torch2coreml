@@ -72,6 +72,8 @@ def _set_deprocessing(is_grayscale,
         W=W,
         b=b,
         has_bias=True,
+        shape_scale=W.shape,
+        shape_bias=b.shape,
         input_name=input_name,
         output_name=output_name
     )
