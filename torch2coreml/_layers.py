@@ -398,6 +398,25 @@ def _convert_reflection_padding(builder,
     return output_names
 
 
+def _convert_upsampling_nearest(builder,
+                                name,
+                                layer,
+                                input_names,
+                                output_names):
+    scale = int(layer.scale_factor)
+
+    builder.add_upsample(
+        name=name,
+        scaling_factor_h=scale,
+        scaling_factor_w=scale,
+        input_name=input_names[0],
+        output_name=output_names[0],
+        mode='NN'
+    )
+
+    return output_names
+
+
 _TORCH_LAYER_REGISTRY = {
     'Sequential': _convert_sequential,
     'SpatialConvolution': _convert_convolution,
@@ -418,7 +437,8 @@ _TORCH_LAYER_REGISTRY = {
     'MulConstant': _convert_mul_constant,
     'SpatialZeroPadding': _convert_zero_padding,
     'Narrow': _convert_narrow,
-    'SpatialReflectionPadding': _convert_reflection_padding
+    'SpatialReflectionPadding': _convert_reflection_padding,
+    'SpatialUpSamplingNearest': _convert_upsampling_nearest
 }
 
 

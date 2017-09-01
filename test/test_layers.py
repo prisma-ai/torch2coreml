@@ -104,3 +104,6 @@ class SingleLayerTest(unittest.TestCase):
 
     def test_reflection_padding(self):
         self._test_single_layer('nn.SpatialReflectionPadding(1, 2, 3, 4)')
+
+    def test_upsample_nearest(self):
+        self._test_single_layer('nn.SpatialUpSamplingNearest(2)')
