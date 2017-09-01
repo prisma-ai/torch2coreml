@@ -19,7 +19,7 @@ class TorchConverterTest(unittest.TestCase):
         self.model_path = model_path
         self.input = np.random.ranf(_INPUT_SHAPE)
         _generate_single_layer_torch_model(
-            'nn.MulConstant(1.0)', self.input.shape, self.model_path
+            'nn.MulConstant(1.0)', [self.input.shape], self.model_path
         )
 
     def tearDown(self):
@@ -29,9 +29,9 @@ class TorchConverterTest(unittest.TestCase):
         from _torch_converter import convert
         coreml_model = convert(
             self.model_path,
-            self.input.shape,
-            input_name='image',
-            is_image_input=True,
+            [self.input.shape],
+            input_names=['image'],
+            image_input_names=['image'],
             preprocessing_args={
                 'is_bgr': False,
                 'red_bias': 0.0,
@@ -51,9 +51,10 @@ class TorchConverterTest(unittest.TestCase):
         from _torch_converter import convert
         coreml_model = convert(
             self.model_path,
-            self.input.shape,
-            input_name='image',
-            is_image_input=True,
+            [self.input.shape],
+            input_names=['image'],
+            output_names=['output'],
+            image_input_names=['image'],
             preprocessing_args={
                 'is_bgr': False,
                 'red_bias': -10.0,
@@ -61,7 +62,7 @@ class TorchConverterTest(unittest.TestCase):
                 'blue_bias': -30.0,
                 'image_scale': 1.0
             },
-            is_image_output=True,
+            image_output_names=['output'],
             deprocessing_args={
                 'is_bgr': False,
                 'red_bias': 10.0,
@@ -83,9 +84,10 @@ class TorchConverterTest(unittest.TestCase):
         from _torch_converter import convert
         coreml_model = convert(
             self.model_path,
-            self.input.shape,
-            input_name='image',
-            is_image_input=True,
+            [self.input.shape],
+            input_names=['image'],
+            output_names=['output'],
+            image_input_names=['image'],
             preprocessing_args={
                 'is_bgr': False,
                 'red_bias': 0.0,
@@ -93,7 +95,7 @@ class TorchConverterTest(unittest.TestCase):
                 'blue_bias': 0.0,
                 'image_scale': 0.5
             },
-            is_image_output=True,
+            image_output_names=['output'],
             deprocessing_args={
                 'is_bgr': False,
                 'red_bias': 0.0,
@@ -118,7 +120,7 @@ class TorchConverterTest(unittest.TestCase):
 
         coreml_model = convert(
             self.model_path,
-            (3,),
+            [(3,)],
             mode='classifier',
             class_labels=class_labels,
             predicted_feature_name='class'

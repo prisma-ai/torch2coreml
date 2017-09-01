@@ -417,6 +417,26 @@ def _convert_upsampling_nearest(builder,
     return output_names
 
 
+def _convert_split_table(builder, name, layer, input_names, output_names):
+    dimension = layer.dimension
+    if len(layer.output[0].numpy().shape) == 3:
+        # as torch layer works with 4d tensor we should decrement dimension
+        dimension -= 1
+
+    if dimension != 0:
+        raise ValueError(
+            'Only channel dimension for Split is supported now.'
+        )
+
+    builder.add_split(
+        name=name,
+        input_name=input_names[0],
+        output_names=output_names
+    )
+
+    return output_names
+
+
 _TORCH_LAYER_REGISTRY = {
     'Sequential': _convert_sequential,
     'SpatialConvolution': _convert_convolution,
@@ -438,7 +458,8 @@ _TORCH_LAYER_REGISTRY = {
     'SpatialZeroPadding': _convert_zero_padding,
     'Narrow': _convert_narrow,
     'SpatialReflectionPadding': _convert_reflection_padding,
-    'SpatialUpSamplingNearest': _convert_upsampling_nearest
+    'SpatialUpSamplingNearest': _convert_upsampling_nearest,
+    'SplitTable': _convert_split_table
 }
 
 

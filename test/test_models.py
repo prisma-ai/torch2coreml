@@ -51,7 +51,7 @@ class ResNetTest(unittest.TestCase):
         from _torch_converter import convert
         coreml_net = convert(
             self.model_path,
-            (3, 224, 224)
+            [(3, 224, 224)]
         )
         coreml_output = coreml_net.predict({'input': input_0})['output']
 

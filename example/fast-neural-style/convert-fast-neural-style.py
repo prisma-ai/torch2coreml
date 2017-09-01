@@ -21,17 +21,17 @@ def main():
 
     coreml_model = convert(
         args.input,
-        input_shape,
-        input_name='inputImage',
-        output_name='outputImage',
-        is_image_input=True,
+        [input_shape],
+        input_names=['inputImage'],
+        output_names=['outputImage'],
+        image_input_names=['inputImage'],
         preprocessing_args={
             'is_bgr': True,
             'red_bias': -123.68,
             'green_bias': -116.779,
             'blue_bias': -103.939
         },
-        is_image_output=True,
+        image_output_names=['outputImage'],
         deprocessing_args={
             'is_bgr': True,
             'red_bias': 123.68,

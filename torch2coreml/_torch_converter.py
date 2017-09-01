@@ -15,19 +15,55 @@ from _utils import _convert_multiarray_output_to_image
 _DEPROCESS_LAYER_NAME = 'deprocess_image'
 
 
-def _infer_torch_output_shape(torch_model, input_shape):
+def _forward_torch_random_input(torch_model, input_shapes, is_batch=False):
+    input_tensors = []
+    for shape in input_shapes:
+        if is_batch:
+            tensor = torch.rand(1, *shape).float()
+        else:
+            tensor = torch.rand(*shape).float()
+        input_tensors.append(tensor)
+
+    if len(input_tensors) == 1:
+        result = torch_model.forward(input_tensors[0])
+    else:
+        result = torch_model.forward(input_tensors)
+
+    if isinstance(result, list):
+        # multi output
+        output_shapes = []
+        for tensor in result:
+            shape = tensor.numpy().shape
+            if is_batch:
+                shape = shape[1:]
+            output_shapes.append(shape)
+        return output_shapes
+    else:
+        # single output
+        output_shape = result.numpy().shape
+        if is_batch:
+            return [output_shape[1:]]
+        else:
+            return [output_shape]
+
+
+def _infer_torch_output_shapes(torch_model, input_shapes):
     """
     Forward torch model to infer output shape
     """
     try:
-        input_tensor = torch.rand(*input_shape).float()
-        output_shape = torch_model.forward(input_tensor).numpy().shape
-        return output_shape
+        return _forward_torch_random_input(
+            torch_model,
+            input_shapes,
+            is_batch=False
+        )
     except:
         # try batch mode
-        input_tensor = torch.rand(1, *input_shape).float()
-        output_shape = torch_model.forward(input_tensor).numpy().shape[1:]
-        return output_shape
+        return _forward_torch_random_input(
+            torch_model,
+            input_shapes,
+            is_batch=True
+        )
 
 
 def _set_deprocessing(is_grayscale,
@@ -68,7 +104,7 @@ def _set_deprocessing(is_grayscale,
             ])
 
     builder.add_scale(
-        name=_DEPROCESS_LAYER_NAME,
+        name=input_name,
         W=W,
         b=b,
         has_bias=True,
@@ -80,13 +116,13 @@ def _set_deprocessing(is_grayscale,
 
 
 def convert(model,
-            input_shape,
-            input_name='input',
-            output_name='output',
+            input_shapes,
+            input_names=['input'],
+            output_names=['output'],
             mode=None,
-            is_image_input=False,
+            image_input_names=[],
             preprocessing_args={},
-            is_image_output=False,
+            image_output_names=[],
             deprocessing_args={},
             class_labels=None,
             predicted_feature_name='classLabel'):
@@ -99,8 +135,8 @@ def convert(model,
         A trained Torch7 model loaded in python using PyTorch or path to file
         with model (*.t7).
 
-    input_shape: tuple
-        Shape of the input tensor.
+    input_shapes: list of tuples
+        Shapes of the input tensors.
 
     mode: str ('classifier', 'regressor' or None)
         Mode of the converted coreml model:
@@ -143,33 +179,59 @@ def convert(model,
 
     torch_model.evaluate()
 
-    if not isinstance(input_shape, tuple):
-        raise TypeError("Input shape should be tuple.")
+    if not isinstance(input_shapes, list):
+        raise TypeError("Input shapes should be a list of tuples.")
 
-    output_shape = _infer_torch_output_shape(
+    for shape in input_shapes:
+        if not isinstance(shape, tuple):
+            raise TypeError("Input shape should be a tuple.")
+
+    if len(input_names) != len(input_shapes):
+        raise ValueError(
+            "Input names count must be equal to input shapes count"
+        )
+
+    output_shapes = _infer_torch_output_shapes(
         torch_model,
-        input_shape
+        input_shapes
     )
 
+    if len(output_shapes) != len(output_names):
+        raise ValueError(
+            "Model has {} outputs, but you set output_names for {}."
+            .format(len(output_shapes), len(output_names))
+        )
+
     # create input/output features
-    input_features = [(input_name, datatypes.Array(*input_shape))]
-    output_features = [(output_name, datatypes.Array(*output_shape))]
+    input_features = []
+    for i in range(len(input_names)):
+        input_features.append(
+            (input_names[i], datatypes.Array(*input_shapes[i]))
+        )
+    output_features = []
+    for i in range(len(output_names)):
+        output_features.append(
+            (output_names[i], datatypes.Array(*output_shapes[i]))
+        )
 
     builder = NeuralNetworkBuilder(input_features, output_features, mode)
 
     # build model
     layer_name = _gen_layer_name(torch_model)
-    _output_names = [output_name]
-    if is_image_output:
-        _output_names = [_DEPROCESS_LAYER_NAME]
+    _output_names = output_names[:]
+    if len(image_output_names) > 0:
+        for i in range(len(_output_names)):
+            if _output_names[i] in image_output_names:
+                _output_names[i] = _gen_layer_name(_DEPROCESS_LAYER_NAME)
+
     model_output_names = _layers._convert_layer(
-        builder, layer_name, torch_model, [input_name], _output_names
+        builder, layer_name, torch_model, input_names, _output_names
     )
 
     # set preprocessing parameters
-    if is_image_input:
+    if len(image_input_names) > 0:
         builder.set_pre_processing_parameters(
-            image_input_names=[input_name],
+            image_input_names=image_input_names,
             is_bgr=preprocessing_args.get('is_bgr', False),
             red_bias=preprocessing_args.get('red_bias', 0.0),
             green_bias=preprocessing_args.get('green_bias', 0.0),
@@ -179,20 +241,24 @@ def convert(model,
         )
 
     # set deprocessing parameters
-    if is_image_output:
-        if output_shape[0] == 1:
-            is_grayscale = True
-        elif output_shape[0] == 3:
-            is_grayscale = False
-        else:
-            raise ValueError('Output must be RGB image or Grayscale')
-        _set_deprocessing(
-            is_grayscale,
-            builder,
-            deprocessing_args,
-            model_output_names[0],
-            output_name
-        )
+    if len(image_output_names) > 0:
+        for i in range(len(output_names)):
+            output_name = output_names[i]
+            if output_name in image_output_names:
+                output_shape = output_shapes[i]
+                if len(output_shape) == 2 or output_shape[0] == 1:
+                    is_grayscale = True
+                elif output_shape[0] == 3:
+                    is_grayscale = False
+                else:
+                    raise ValueError('Output must be RGB image or Grayscale')
+                _set_deprocessing(
+                    is_grayscale,
+                    builder,
+                    deprocessing_args,
+                    model_output_names[i],
+                    output_name
+                )
 
     if class_labels is not None:
         if type(class_labels) is str:

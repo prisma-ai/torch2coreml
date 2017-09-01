@@ -1,6 +1,8 @@
 import sys
 import subprocess
 
+from jinja2 import Environment
+
 
 _INPUT_SHAPE = (3, 224, 224)
 
@@ -13,24 +15,32 @@ _SINGLE_LAYER_LUA_TEMPLATE = \
     torch.setdefaulttensortype('torch.FloatTensor')
 
     local net = nn.Sequential()
-    net:add({layer})
+    net:add({{ layer }})
     net:evaluate()
 
-    local input = torch.rand({input_shape})
+    {% if input_shapes|length == 1 %}
+    local input = torch.rand({{ input_shapes[0] }})
+    {% else %}
+    local input = {}
+    {% for shape in input_shapes %}
+    table.insert(input, torch.rand({{ shape }}))
+    {% endfor %}
+    {% endif %}
+
     net:forward(input)
 
-    torch.save('{model_path}', net)
+    torch.save('{{ model_path }}', net)
     """
 
 
 def _generate_single_layer_torch_model(layer,
-                                       input_shape,
+                                       input_shapes,
                                        model_path):
-    input_shape_str = ','.join(map(str, input_shape))
+    input_shapes_str = [','.join(map(str, s)) for s in input_shapes]
 
-    script = _SINGLE_LAYER_LUA_TEMPLATE.format(
+    script = Environment().from_string(_SINGLE_LAYER_LUA_TEMPLATE).render(
         layer=layer,
-        input_shape=input_shape_str,
+        input_shapes=input_shapes_str,
         model_path=model_path
     )
 

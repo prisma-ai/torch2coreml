@@ -30,13 +30,13 @@ This function is simple enough to be self-describing:
 
 ```python
 def convert(model,
-            input_shape,
-            input_name='input',
-            output_name='output',
+            input_shapes,
+            input_names=['input'],
+            output_names=['output'],
             mode=None,
-            is_image_input=False,
+            image_input_names=[],
             preprocessing_args={},
-            is_image_output=False,
+            image_output_names=[],
             deprocessing_args={},
             class_labels=None,
             predicted_feature_name='classLabel')
@@ -47,8 +47,8 @@ __model__: Torch7 model (loaded with PyTorch) | str
     A trained Torch7 model loaded in python using PyTorch or path to file
     with model (*.t7).
 
-__input_shape__: tuple  
-    Shape of the input tensor.
+__input_shapes__: list of tuples
+    Shapes of the input tensors.
 
 __mode__: str ('classifier', 'regressor' or None)  
     Mode of the converted coreml model:  
@@ -103,6 +103,7 @@ List of Torch7 layers that can be converted into their CoreML equivalent:
 18. SpatialReflectionPadding
 19. Narrow
 20. SpatialUpSamplingNearest
+21. SplitTable
 
 ## License
 

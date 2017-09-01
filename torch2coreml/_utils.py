@@ -32,23 +32,28 @@ def _convert_multiarray_output_to_image(spec, feature_name, is_bgr=False):
                 "{} is not a multiarray type".format(output.name,)
             )
         array_shape = tuple(output.type.multiArrayType.shape)
-        channels, height, width = array_shape
-
-        if channels == 1:
+        if len(array_shape) == 2:
+            height, width = array_shape
             output.type.imageType.colorSpace = \
                 ft.ImageFeatureType.ColorSpace.Value('GRAYSCALE')
-        elif channels == 3:
-            if is_bgr:
-                output.type.imageType.colorSpace = \
-                    ft.ImageFeatureType.ColorSpace.Value('BGR')
-            else:
-                output.type.imageType.colorSpace = \
-                    ft.ImageFeatureType.ColorSpace.Value('RGB')
         else:
-            raise ValueError(
-                "Channel Value {} not supported for image inputs"
-                .format(channels,)
-            )
+            channels, height, width = array_shape
+
+            if channels == 1:
+                output.type.imageType.colorSpace = \
+                    ft.ImageFeatureType.ColorSpace.Value('GRAYSCALE')
+            elif channels == 3:
+                if is_bgr:
+                    output.type.imageType.colorSpace = \
+                        ft.ImageFeatureType.ColorSpace.Value('BGR')
+                else:
+                    output.type.imageType.colorSpace = \
+                        ft.ImageFeatureType.ColorSpace.Value('RGB')
+            else:
+                raise ValueError(
+                    "Channel Value {} not supported for image inputs"
+                    .format(channels,)
+                )
 
         output.type.imageType.width = width
         output.type.imageType.height = height
