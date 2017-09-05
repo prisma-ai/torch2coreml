@@ -74,6 +74,7 @@
 				1622C3D01F3269580059889E /* Assets.xcassets */,
 				1622C3D21F3269580059889E /* LaunchScreen.storyboard */,
 				1622C3D51F3269580059889E /* Info.plist */,
+				93DD74551F5F40C8004B2891 /* UIImage+scaling.swift */,
 			);
 			path = StyleTransfer;
 			sourceTree = "<group>";
