@@ -66,7 +66,11 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
         }
         alert.addAction(cancelAction)
-        
+
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            alert.popoverPresentationController?.sourceView = self.view
+        }
+
         present(alert, animated: true, completion: nil)
     }
     
