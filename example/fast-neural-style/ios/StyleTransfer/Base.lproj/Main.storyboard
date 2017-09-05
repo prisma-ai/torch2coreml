@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13168.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Rso-um-b7V">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13189.4" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Rso-um-b7V">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13147.4"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13165.3"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -15,7 +15,7 @@
             <objects>
                 <navigationController id="Rso-um-b7V" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Fbl-Yj-CRF">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -37,7 +37,7 @@
                             <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZqT-3x-ES3">
                                 <rect key="frame" x="0.0" y="439" width="188" height="114"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Button" image="starry_night"/>
+                                <state key="normal" title="Button" image="mosaic"/>
                                 <connections>
                                     <action selector="styleButtonTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tSd-55-BaV"/>
                                 </connections>
@@ -45,7 +45,7 @@
                             <button opaque="NO" tag="1" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LFI-Kp-9U8">
                                 <rect key="frame" x="187" y="439" width="188" height="114"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Button" image="composition_vii"/>
+                                <state key="normal" title="Button" image="the_scream"/>
                                 <connections>
                                     <action selector="styleButtonTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wJb-5U-kjf"/>
                                 </connections>
@@ -53,7 +53,7 @@
                             <button opaque="NO" tag="2" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ShK-0Z-KFk">
                                 <rect key="frame" x="0.0" y="553" width="187.5" height="114"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Button" image="wave"/>
+                                <state key="normal" title="Button" image="udnie"/>
                                 <connections>
                                     <action selector="styleButtonTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Xk0-fv-yP9"/>
                                 </connections>
@@ -61,7 +61,7 @@
                             <button opaque="NO" tag="3" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wez-Zd-kBo">
                                 <rect key="frame" x="187" y="553" width="187.5" height="114"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <state key="normal" title="Button" image="la_muse"/>
+                                <state key="normal" title="Button" image="candy"/>
                                 <connections>
                                     <action selector="styleButtonTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="X3f-pA-JaY"/>
                                 </connections>
@@ -146,10 +146,10 @@
         </scene>
     </scenes>
     <resources>
-        <image name="composition_vii" width="1071" height="712"/>
-        <image name="input" width="1080" height="1080"/>
-        <image name="la_muse" width="1088" height="873"/>
-        <image name="starry_night" width="1024" height="640"/>
-        <image name="wave" width="928" height="514"/>
+        <image name="candy" width="1024" height="1024"/>
+        <image name="input" width="720" height="720"/>
+        <image name="mosaic" width="470" height="391"/>
+        <image name="the_scream" width="1200" height="1528"/>
+        <image name="udnie" width="1259" height="1260"/>
     </resources>
 </document>

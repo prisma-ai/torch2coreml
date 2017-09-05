@@ -8,6 +8,8 @@ from coremltools.models import MLModel, datatypes
 
 import _layers
 
+from _layers import _get_layer_converter_fn
+
 from _utils import _gen_layer_name
 from _utils import _convert_multiarray_output_to_image
 
@@ -125,7 +127,8 @@ def convert(model,
             image_output_names=[],
             deprocessing_args={},
             class_labels=None,
-            predicted_feature_name='classLabel'):
+            predicted_feature_name='classLabel',
+            unknown_layer_converter_fn=None):
     """
     Convert Torch7 model to CoreML.
 
@@ -161,11 +164,23 @@ def convert(model,
         Name of the output feature for the class labels exposed in the Core ML
         model (applies to classifiers only). Defaults to 'classLabel'
 
+    unknown_layer_converter_fn: function with signature:
+        (builder, name, layer, input_names, output_names)
+            builder: object - instance of NeuralNetworkBuilder class
+            name: str - generated layer name
+            layer: object - pytorch object for corresponding layer
+            input_names: list of strings
+            output_names: list of strings
+            Returns: list of strings for layer output names
+        Callback function to handle unknown for torch2coreml layers
+
+
     Returns
     -------
     model: A coreml model.
     """
     _gen_layer_name.called = 0
+    _get_layer_converter_fn.unknown_converter_fn = unknown_layer_converter_fn
 
     if isinstance(model, basestring):
         torch_model = load_lua(model)

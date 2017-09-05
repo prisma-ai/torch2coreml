@@ -12,6 +12,8 @@ from torch2coreml import convert
 class InstanceNormalization(Module):
     def __init__(self, num_features, eps=1e-5, momentum=0.1, affine=False):
         super(Module, self).__init__()
+        if momentum is None:
+            momentum = 0.1
         self._instance_norm = InstanceNorm3d(
             num_features,
             eps=eps,
@@ -20,20 +22,8 @@ class InstanceNormalization(Module):
         )
 
     @property
-    def running_mean(self):
-        return self._instance_norm.running_mean
-
-    @running_mean.setter
-    def running_mean(self, value):
-        self._instance_norm.running_mean = value
-
-    @property
-    def running_var(self):
-        return self._instance_norm.running_var
-
-    @running_var.setter
-    def running_var(self, value):
-        self._instance_norm.running_var = value
+    def eps(self):
+        return self._instance_norm.eps
 
     @property
     def weight(self):
@@ -79,8 +69,6 @@ def create_instance_norm(m):
         affine=True
     )
 
-    layer.running_mean = m.running_mean
-    layer.running_var = m.running_var
     layer.weight = m.weight
     layer.bias = m.bias
 
@@ -107,6 +95,31 @@ def load_torch_model(path):
         fix_full_conv
     )
     return model
+
+
+def convert_instance_norm(builder, name, layer, input_names, output_names):
+    if not isinstance(layer, InstanceNormalization):
+        raise TypeError('Unsupported type {}'.format(layer,))
+
+    epsilon = layer.eps
+    weight = layer.weight.numpy()
+    bias = None
+    if layer.bias is not None:
+        bias = layer.bias.numpy()
+
+    builder.add_batchnorm(
+        name=name,
+        channels=weight.shape[0],
+        gamma=weight,
+        beta=bias,
+        compute_mean_var=True,
+        instance_normalization=True,
+        input_name=input_names[0],
+        output_name=output_names[0],
+        epsilon=epsilon
+    )
+
+    return output_names
 
 
 def main():
@@ -145,7 +158,8 @@ def main():
             'red_bias': 123.68,
             'green_bias': 116.779,
             'blue_bias': 103.939
-        }
+        },
+        unknown_layer_converter_fn=convert_instance_norm
     )
 
     coreml_model.author = 'Justin Johnson'

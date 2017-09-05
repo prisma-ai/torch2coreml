@@ -23,10 +23,10 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
     private var inputImage = UIImage(named: "input")!
     
     private let models = [
-        starry_night().model,
-        composition_vii().model,
-        the_wave().model,
-        la_muse().model
+        mosaic().model,
+        the_scream().model,
+        udnie().model,
+        candy().model
     ]
     
     override func viewDidLoad() {

@@ -471,6 +471,9 @@ def _get_layer_converter_fn(layer):
     if name in _TORCH_LAYER_REGISTRY:
         return _TORCH_LAYER_REGISTRY[name]
     else:
+        unknown_fn = _get_layer_converter_fn.unknown_converter_fn
+        if unknown_fn is not None:
+            return unknown_fn
         raise TypeError(
             "Torch layer of type {} is not supported.".format(name,)
         )

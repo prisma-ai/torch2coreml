@@ -12,11 +12,11 @@
 		1622C3CF1F3269580059889E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1622C3CD1F3269580059889E /* Main.storyboard */; };
 		1622C3D11F3269580059889E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1622C3D01F3269580059889E /* Assets.xcassets */; };
 		1622C3D41F3269580059889E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1622C3D21F3269580059889E /* LaunchScreen.storyboard */; };
-		164CAACB1F54C12B00A1CEF1 /* starry_night.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 164CAAC71F54C12B00A1CEF1 /* starry_night.mlmodel */; };
-		164CAACC1F54C12B00A1CEF1 /* la_muse.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 164CAAC81F54C12B00A1CEF1 /* la_muse.mlmodel */; };
-		164CAACD1F54C12B00A1CEF1 /* the_wave.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 164CAAC91F54C12B00A1CEF1 /* the_wave.mlmodel */; };
-		164CAACE1F54C12B00A1CEF1 /* composition_vii.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 164CAACA1F54C12B00A1CEF1 /* composition_vii.mlmodel */; };
 		167819161F54F73C009973BB /* StyleTransferInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167819151F54F73C009973BB /* StyleTransferInput.swift */; };
+		16C177901F5F0E900002C6B9 /* candy.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 16C1778F1F5F0E900002C6B9 /* candy.mlmodel */; };
+		16C177941F5F0EA10002C6B9 /* the_scream.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 16C177911F5F0EA10002C6B9 /* the_scream.mlmodel */; };
+		16C177951F5F0EA10002C6B9 /* mosaic.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 16C177921F5F0EA10002C6B9 /* mosaic.mlmodel */; };
+		16C177961F5F0EA10002C6B9 /* udnie.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 16C177931F5F0EA10002C6B9 /* udnie.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,11 +27,11 @@
 		1622C3D01F3269580059889E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1622C3D31F3269580059889E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1622C3D51F3269580059889E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		164CAAC71F54C12B00A1CEF1 /* starry_night.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = starry_night.mlmodel; sourceTree = "<group>"; };
-		164CAAC81F54C12B00A1CEF1 /* la_muse.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = la_muse.mlmodel; sourceTree = "<group>"; };
-		164CAAC91F54C12B00A1CEF1 /* the_wave.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = the_wave.mlmodel; sourceTree = "<group>"; };
-		164CAACA1F54C12B00A1CEF1 /* composition_vii.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = composition_vii.mlmodel; sourceTree = "<group>"; };
 		167819151F54F73C009973BB /* StyleTransferInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleTransferInput.swift; sourceTree = "<group>"; };
+		16C1778F1F5F0E900002C6B9 /* candy.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = candy.mlmodel; sourceTree = "<group>"; };
+		16C177911F5F0EA10002C6B9 /* the_scream.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = the_scream.mlmodel; sourceTree = "<group>"; };
+		16C177921F5F0EA10002C6B9 /* mosaic.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = mosaic.mlmodel; sourceTree = "<group>"; };
+		16C177931F5F0EA10002C6B9 /* udnie.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = udnie.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,10 +79,10 @@
 		164CAAC61F54C12B00A1CEF1 /* coreml_models */ = {
 			isa = PBXGroup;
 			children = (
-				164CAAC71F54C12B00A1CEF1 /* starry_night.mlmodel */,
-				164CAAC81F54C12B00A1CEF1 /* la_muse.mlmodel */,
-				164CAAC91F54C12B00A1CEF1 /* the_wave.mlmodel */,
-				164CAACA1F54C12B00A1CEF1 /* composition_vii.mlmodel */,
+				16C177921F5F0EA10002C6B9 /* mosaic.mlmodel */,
+				16C177911F5F0EA10002C6B9 /* the_scream.mlmodel */,
+				16C177931F5F0EA10002C6B9 /* udnie.mlmodel */,
+				16C1778F1F5F0E900002C6B9 /* candy.mlmodel */,
 			);
 			name = coreml_models;
 			path = ../../coreml_models;
@@ -159,13 +159,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16C177951F5F0EA10002C6B9 /* mosaic.mlmodel in Sources */,
+				16C177901F5F0E900002C6B9 /* candy.mlmodel in Sources */,
 				167819161F54F73C009973BB /* StyleTransferInput.swift in Sources */,
 				1622C3CC1F3269580059889E /* ViewController.swift in Sources */,
-				164CAACC1F54C12B00A1CEF1 /* la_muse.mlmodel in Sources */,
 				1622C3CA1F3269580059889E /* AppDelegate.swift in Sources */,
-				164CAACB1F54C12B00A1CEF1 /* starry_night.mlmodel in Sources */,
-				164CAACE1F54C12B00A1CEF1 /* composition_vii.mlmodel in Sources */,
-				164CAACD1F54C12B00A1CEF1 /* the_wave.mlmodel in Sources */,
+				16C177961F5F0EA10002C6B9 /* udnie.mlmodel in Sources */,
+				16C177941F5F0EA10002C6B9 /* the_scream.mlmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
