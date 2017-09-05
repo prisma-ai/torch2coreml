@@ -17,6 +17,7 @@
 		16C177941F5F0EA10002C6B9 /* the_scream.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 16C177911F5F0EA10002C6B9 /* the_scream.mlmodel */; };
 		16C177951F5F0EA10002C6B9 /* mosaic.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 16C177921F5F0EA10002C6B9 /* mosaic.mlmodel */; };
 		16C177961F5F0EA10002C6B9 /* udnie.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 16C177931F5F0EA10002C6B9 /* udnie.mlmodel */; };
+		93DD74561F5F40C8004B2891 /* UIImage+scaling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DD74551F5F40C8004B2891 /* UIImage+scaling.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		16C177911F5F0EA10002C6B9 /* the_scream.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = the_scream.mlmodel; sourceTree = "<group>"; };
 		16C177921F5F0EA10002C6B9 /* mosaic.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = mosaic.mlmodel; sourceTree = "<group>"; };
 		16C177931F5F0EA10002C6B9 /* udnie.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = udnie.mlmodel; sourceTree = "<group>"; };
+		93DD74551F5F40C8004B2891 /* UIImage+scaling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+scaling.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +168,7 @@
 				1622C3CA1F3269580059889E /* AppDelegate.swift in Sources */,
 				16C177961F5F0EA10002C6B9 /* udnie.mlmodel in Sources */,
 				16C177941F5F0EA10002C6B9 /* the_scream.mlmodel in Sources */,
+				93DD74561F5F40C8004B2891 /* UIImage+scaling.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

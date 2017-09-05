@@ -92,7 +92,11 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
     }
     
     @IBAction func styleButtonTouched(_ sender: UIButton) {
-        let image = inputImage.cgImage!
+        guard let image = inputImage.scaled(to: CGSize(width: imageSize, height: imageSize), scalingMode: .aspectFit).cgImage else {
+            print("Could not get a CGImage")
+            return
+        }
+
         let model = models[sender.tag]
         
         toggleLoading(show: true)
@@ -123,9 +127,11 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
     // MARK: - UIImagePickerControllerDelegate
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        let image = info[UIImagePickerControllerEditedImage] as! UIImage
-        inputImage = image
-        imageView.image = image
+        if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
+            inputImage = image
+            imageView.image = image
+        }
+
         picker.dismiss(animated: true, completion: nil)
     }
     
