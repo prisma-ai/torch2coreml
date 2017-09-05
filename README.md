@@ -76,14 +76,14 @@ __predicted_feature_name__: str
     Name of the output feature for the class labels exposed in the Core ML
     model (applies to classifiers only). Defaults to 'classLabel'
 
-__unknown_layer_converter_fn__: function with signature:
-    (builder, name, layer, input_names, output_names)
-        builder: object - instance of NeuralNetworkBuilder class
-        name: str - generated layer name
-        layer: object - PyTorch (python) object for corresponding layer
-        input_names: list of strings
-        output_names: list of strings
-        Returns: list of strings for layer output names
+__unknown_layer_converter_fn__: function with signature:  
+    (builder, name, layer, input_names, output_names)  
+        builder: object - instance of NeuralNetworkBuilder class  
+        name: str - generated layer name  
+        layer: object - PyTorch (python) object for corresponding layer  
+        input_names: list of strings  
+        output_names: list of strings  
+        Returns: list of strings for layer output names  
     Callback function to handle unknown for torch2coreml layers
 
 ### Returns
