@@ -15,7 +15,7 @@ cd ..
 # Prepare models
 echo "Preparing models for conversion"
 mkdir -p prepared_models
-for f in fast-neural-style/models/eccv16/*.t7
+for f in fast-neural-style/models/instance_norm/*.t7
 do
   th prepare_model.lua -input $f -output prepared_models/$(basename $f)
 done

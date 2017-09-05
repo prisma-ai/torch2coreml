@@ -3,6 +3,7 @@ require 'nn'
 
 require 'fast-neural-style.fast_neural_style.ShaveImage'
 require 'fast-neural-style.fast_neural_style.TotalVariation'
+require 'fast-neural-style.fast_neural_style.InstanceNormalization'
 
 torch.setdefaulttensortype('torch.FloatTensor')
 
