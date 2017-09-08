@@ -1,5 +1,7 @@
 # Convert Torch7 models into Apple CoreML format.
 
+[Short tutorial](https://blog.prismalabs.ai/diy-prisma-app-with-coreml-6b4994cc99e1)
+
 This tool helps convert Torch7 models into [Apple CoreML](https://developer.apple.com/documentation/coreml) format which can then be run on Apple devices.
 
 ![fast-neural-style example app screenshot](https://github.com/prisma-ai/torch2coreml/raw/master/screenshot.jpg "fast-neural-style example app")

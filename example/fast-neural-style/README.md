@@ -1,5 +1,7 @@
 # Convert fast-neural-style models into Apple CoreML format.
 
+[Short tutorial](https://blog.prismalabs.ai/diy-prisma-app-with-coreml-6b4994cc99e1)
+
 This is an example of converting original [fast-neural-style](https://github.com/jcjohnson/fast-neural-style) models into CoreML format.
 
 # Usage
