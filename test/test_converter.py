@@ -3,10 +3,10 @@ import numpy.testing as npt
 import unittest
 import os
 import sys
-import tempfile
+import torch.legacy.nn as nn
 
 from PIL import Image
-from _test_utils import _generate_single_layer_torch_model, _INPUT_SHAPE
+from _test_utils import _INPUT_SHAPE
 
 sys.path.append(
     os.path.dirname(os.path.realpath(__file__)) + "/../torch2coreml/"
@@ -15,20 +15,14 @@ sys.path.append(
 
 class TorchConverterTest(unittest.TestCase):
     def setUp(self):
-        _, model_path = tempfile.mkstemp()
-        self.model_path = model_path
         self.input = np.random.ranf(_INPUT_SHAPE)
-        _generate_single_layer_torch_model(
-            'nn.MulConstant(1.0)', [self.input.shape], self.model_path
-        )
-
-    def tearDown(self):
-        os.remove(self.model_path)
+        self.model = nn.Sequential()
+        self.model.add(nn.MulConstant(1.0))
 
     def test_image_input(self):
         from _torch_converter import convert
         coreml_model = convert(
-            self.model_path,
+            self.model,
             [self.input.shape],
             input_names=['image'],
             image_input_names=['image'],
@@ -50,7 +44,7 @@ class TorchConverterTest(unittest.TestCase):
     def test_image_output(self):
         from _torch_converter import convert
         coreml_model = convert(
-            self.model_path,
+            self.model,
             [self.input.shape],
             input_names=['image'],
             output_names=['output'],
@@ -83,7 +77,7 @@ class TorchConverterTest(unittest.TestCase):
     def test_image_deprocess_scale(self):
         from _torch_converter import convert
         coreml_model = convert(
-            self.model_path,
+            self.model,
             [self.input.shape],
             input_names=['image'],
             output_names=['output'],
@@ -119,7 +113,7 @@ class TorchConverterTest(unittest.TestCase):
         class_labels = ['class1', 'class2', 'class3']
 
         coreml_model = convert(
-            self.model_path,
+            self.model,
             [(3,)],
             mode='classifier',
             class_labels=class_labels,
