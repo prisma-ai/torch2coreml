@@ -64,7 +64,7 @@ class SingleLayerTest(unittest.TestCase):
                 output_names=output_names
             )
             result = coreml_model.predict(
-                dict(zip(input_names, self.input))
+                dict(zip(input_names, self.input)), useCPUOnly=True
             )
         else:
             coreml_model = convert(
@@ -72,13 +72,15 @@ class SingleLayerTest(unittest.TestCase):
                 [self.input.shape],
                 output_names=output_names
             )
-            result = coreml_model.predict({'input': self.input})
+            result = coreml_model.predict(
+                {'input': self.input}, useCPUOnly=True
+            )
         if self.output_count > 1:
             return [result[name] for name in output_names]
         else:
             return result['output']
 
-    def _assert_outputs(self, torch_output, coreml_output):
+    def _assert_outputs(self, torch_output, coreml_output, decimal):
         if isinstance(torch_output, list):
             self.assertTrue(isinstance(coreml_output, list))
             self.assertEqual(len(torch_output), len(coreml_output))
@@ -86,18 +88,14 @@ class SingleLayerTest(unittest.TestCase):
                 tout = torch_output[i]
                 cout = coreml_output[i]
                 self.assertEqual(tout.shape, cout.shape)
-                npt.assert_almost_equal(cout, tout, decimal=2)
-                corrcoef = np.corrcoef(cout.flatten(),
-                                       tout.flatten()).flatten()[1]
-                self.assertAlmostEqual(corrcoef, 1.0, delta=1e-4)
+                npt.assert_almost_equal(cout, tout, decimal=decimal)
         else:
             self.assertEqual(torch_output.shape, coreml_output.shape)
-            npt.assert_almost_equal(coreml_output, torch_output, decimal=2)
-            corrcoef = np.corrcoef(coreml_output.flatten(),
-                                   torch_output.flatten()).flatten()[1]
-            self.assertAlmostEqual(corrcoef, 1.0, delta=1e-4)
+            npt.assert_almost_equal(
+                coreml_output, torch_output, decimal=decimal
+            )
 
-    def _test_single_layer(self, layer):
+    def _test_single_layer(self, layer, decimal=7):
         torch_model = nn.Sequential()
         torch_model.add(layer)
 
@@ -115,7 +113,7 @@ class SingleLayerTest(unittest.TestCase):
         if not isinstance(torch_output, list):
             torch_output = torch_output.copy()
 
-        self._assert_outputs(torch_output, coreml_output)
+        self._assert_outputs(torch_output, coreml_output, decimal)
 
     def test_elu(self):
         self._test_single_layer(nn.ELU())
@@ -128,18 +126,24 @@ class SingleLayerTest(unittest.TestCase):
         self._test_single_layer(nn.SpatialSoftMax())
 
     def test_convolution(self):
-        self._test_single_layer(nn.SpatialConvolution(3, 64, 7, 7, 2, 2, 3, 3))
+        self._test_single_layer(
+            nn.SpatialConvolution(3, 64, 7, 7, 2, 2, 3, 3),
+            decimal=6
+        )
 
     def test_max_pooling(self):
         self._test_single_layer(nn.SpatialMaxPooling(3, 3, 1, 1, 1, 1))
 
     def test_avg_pooling(self):
-        self._test_single_layer(nn.SpatialAveragePooling(5, 5, 1, 1, 2, 2))
+        self._test_single_layer(
+            nn.SpatialAveragePooling(5, 5, 1, 1, 2, 2),
+            decimal=6
+        )
 
     def test_linear(self):
         self.input = self.input.flatten()
         input_size = self.input.shape[0]
-        self._test_single_layer(nn.Linear(input_size, 3, True))
+        self._test_single_layer(nn.Linear(input_size, 3, True), decimal=5)
 
     def test_tanh(self):
         self._test_single_layer(nn.Tanh())

@@ -244,9 +244,10 @@ def _convert_pooling(builder, name, layer, input_names, output_names):
 
 def _convert_linear(builder, name, layer, input_names, output_names):
     weight = layer.weight.numpy()
-    bias = layer.bias.numpy()
-
+    bias = layer.bias
     has_bias = bias is not None
+    if has_bias:
+        bias = bias.numpy()
 
     output_channels, input_channels = weight.shape
 
