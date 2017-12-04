@@ -181,3 +181,9 @@ class SingleLayerTest(unittest.TestCase):
         self.output_count = 3
         self.torch_batch_mode = False
         self._test_single_layer(nn.SplitTable(0))
+
+    def test_sigmoid(self):
+        self._test_single_layer(nn.Sigmoid())
+
+    def test_power(self):
+        self._test_single_layer(nn.Power(2))

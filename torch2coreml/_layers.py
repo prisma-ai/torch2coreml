@@ -7,16 +7,21 @@ def _convert_sequential(builder, name, layer, input_names, output_names):
 
     inputs = input_names
     for i in range(n):
-        l = layers[i]
+        l_ = layers[i]
 
         l_outputs = None
-        l_name = _gen_layer_name(l)
+        l_name = _gen_layer_name(l_)
         if i != (n - 1):
-            l_outputs = [l_name]
+            if isinstance(l_.output, list):
+                l_outputs = [
+                    "{}_{}".format(l_name, i)for i in range(len(l_.output))
+                ]
+            else:
+                l_outputs = [l_name]
         else:
             l_outputs = output_names
 
-        l_outputs = _convert_layer(builder, l_name, l, inputs, l_outputs)
+        l_outputs = _convert_layer(builder, l_name, l_, inputs, l_outputs)
         inputs = l_outputs
 
     return output_names
@@ -154,6 +159,20 @@ def _convert_concat_table(builder, name, layer, input_names, output_names):
     return result_outputs
 
 
+def _convert_parallel_table(builder, name, layer, input_names, output_names):
+    layers = layer.modules
+    assert len(input_names) == len(layers)
+    result_outputs = []
+    for i in range(len(layers)):
+        l_ = layers[i]
+        l_name = _gen_layer_name(l_)
+        l_outputs = _convert_layer(
+            builder, l_name, l_, [input_names[i]], [l_name]
+        )
+        result_outputs.append(l_outputs[0])
+    return result_outputs
+
+
 def _convert_batch_norm(builder, name, layer, input_names, output_names):
     epsilon = layer.eps
     mean = layer.running_mean.numpy()
@@ -187,6 +206,43 @@ def _convert_cadd_table(builder, name, layer, input_names, output_names):
         input_names=input_names,
         output_name=output_names[0],
         mode='ADD'
+    )
+
+    return output_names
+
+
+def _convert_cdiv_table(builder, name, layer, input_names, output_names):
+    assert len(input_names) == 2
+    assert len(output_names) == 1
+
+    inverse_layer_name = _gen_layer_name('inverse')
+    inverse_layer_output_name = inverse_layer_name + '_output'
+
+    builder.add_unary(
+        name=inverse_layer_name,
+        input_name=input_names[1],
+        output_name=inverse_layer_output_name,
+        mode='inverse'
+    )
+
+    builder.add_elementwise(
+        name=name,
+        input_names=[input_names[0], inverse_layer_output_name],
+        output_name=output_names[0],
+        mode='MULTIPLY'
+    )
+    return output_names
+
+
+def _convert_cmul_table(builder, name, layer, input_names, output_names):
+    assert len(input_names) > 1
+    assert len(output_names) == 1
+
+    builder.add_elementwise(
+        name=name,
+        input_names=input_names,
+        output_name=output_names[0],
+        mode='MULTIPLY'
     )
 
     return output_names
@@ -299,13 +355,12 @@ def _convert_tanh(builder, name, layer, input_names, output_names):
 
 def _convert_mul_constant(builder, name, layer, input_names, output_names):
     scalar = float(layer.constant_scalar)
-
-    builder.add_activation(
+    builder.add_elementwise(
         name=name,
-        non_linearity='LINEAR',
-        input_name=input_names[0],
+        input_names=[input_names[0]],
         output_name=output_names[0],
-        params=[scalar, 0.0]
+        mode='MULTIPLY',
+        alpha=scalar
     )
 
     return output_names
@@ -438,6 +493,46 @@ def _convert_split_table(builder, name, layer, input_names, output_names):
     return output_names
 
 
+def _convert_log(builder, name, layer, input_names, output_names):
+    builder.add_unary(
+        name=name,
+        input_name=input_names[0],
+        output_name=output_names[0],
+        mode='log'
+    )
+    return output_names
+
+
+def _convert_sigmoid(builder, name, layer, input_names, output_names):
+    builder.add_activation(
+        name=name,
+        non_linearity='SIGMOID',
+        input_name=input_names[0],
+        output_name=output_names[0]
+    )
+    return output_names
+
+
+def _convert_power(builder, name, layer, input_names, output_names):
+    p = layer.pow
+    if p == -1:
+        builder.add_unary(
+            name=name,
+            input_name=input_names[0],
+            output_name=output_names[0],
+            mode='inverse'
+        )
+    else:
+        builder.add_unary(
+            name=name,
+            input_name=input_names[0],
+            output_name=output_names[0],
+            mode='power',
+            alpha=float(p)
+        )
+    return output_names
+
+
 _TORCH_LAYER_REGISTRY = {
     'Sequential': _convert_sequential,
     'SpatialConvolution': _convert_convolution,
@@ -460,7 +555,13 @@ _TORCH_LAYER_REGISTRY = {
     'Narrow': _convert_narrow,
     'SpatialReflectionPadding': _convert_reflection_padding,
     'SpatialUpSamplingNearest': _convert_upsampling_nearest,
-    'SplitTable': _convert_split_table
+    'SplitTable': _convert_split_table,
+    'CDivTable': _convert_cdiv_table,
+    'Log': _convert_log,
+    'Sigmoid': _convert_sigmoid,
+    'ParallelTable': _convert_parallel_table,
+    'Power': _convert_power,
+    'CMulTable': _convert_cmul_table,
 }
 
 
